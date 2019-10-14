@@ -24,7 +24,7 @@ if(file_exists("config.php"))
               <input type="hidden" name="action" value="install"/>
               <div class="row">
                 <div class="input-field col s12">
-                  <input placeholder="Placeholder" id="sn" type="text" class="validate white-text" name="sn" required>
+                  <input id="sn" type="text" class="validate white-text" name="sn" required>
                   <label for="sn">Server Name</label>
                 </div>
               </div>
@@ -104,7 +104,5 @@ if(file_exists("config.php"))
     </main>
     <!--JavaScript at end of body for optimized loading-->
     <script type="text/javascript" src="static/materialize.min.js"></script>
-    <script type="text/javascript" src="static/jquery.min.js"></script>
-    <script type="text/javascript" src="static/core.js"></script>
   </body>
 </html>
