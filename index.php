@@ -24,25 +24,29 @@ include("function.php");
               <div class="row">
                 <div class="input-field col s12">
                   <input id="sn" type="text" class="validate white-text" name="user_name" required>
-                  <label for="sn">Server Name</label>
+                  <label for="sn">Username</label>
+                  <span class="helper-text white-text text-darken-1" data-error="wrong" data-success="right">Username should be between 5 and 25 alphanumeric characters (latin only)</span>
                 </div>
               </div>
               <div class="row">
                 <div class="input-field col s12">
                   <input id="user_email" type="email" class="validate white-text" name="user_email" required>
-                  <label for="user_email"></label>
+                  <label for="user_email">Email</label>
+                  <span class="helper-text white-text text-darken-1" data-error="wrong" data-success="right">Please enter you'r real and functional email address, it will helps when password or username are forgotten</span>
                 </div>
               </div>
               <div class="row">
                 <div class="input-field col s12">
                   <input id="user_password" type="password" class="validate white-text" name="user_password" required>
                   <label for="user_password">Password</label>
+                  <span class="helper-text white-text text-darken-1" data-error="wrong" data-success="right">Password should be longer then 6 characters and complex. Don't be kid! Do <b>not</b> use simple password.</span>
                 </div>
               </div>
               <div class="row">
                 <div class="input-field col s12">
                   <input id="user_password_confirm" type="password" class="validate white-text" name="user_password_confirm" required>
                   <label for="user_password_confirm">Confirm Password</label>
+                  <span class="helper-text white-text text-darken-1" data-error="wrong" data-success="right"></span>
                 </div>
               </div>
             </div>
