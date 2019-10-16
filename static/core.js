@@ -5,12 +5,12 @@ function showresult($message) {
     if(isJson($message)) {
         let obj = $.parseJSON($message);
         if(obj.classes.length > 0)
-            M.toast({html: obj.message, classes: obj.classes});
+            M.toast({html: obj.message, classes: obj.classes, displayLength: 5500, outDuration: 700, inDuration: 550});
         else
-            M.toast({html: obj.message});
+            M.toast({html: obj.message, displayLength: 5500, outDuration: 700, inDuration: 550});
     }
     else {
-        M.toast({html: $message});
+        M.toast({html: $message, displayLength: 5500, outDuration: 700, inDuration: 550});
     }
 }
 
@@ -38,3 +38,24 @@ function isJson(item) {
 
     return false;
 }
+
+//ajax
+$("#user_name").keyup(_.debounce(function (e) {
+  if($(this).val().length > 5) {
+    e.preventDefault();
+    var fromData = {
+      "action": "user_check",
+      "user_name": $(this).val()
+    };
+    console.log(fromData);
+    $.ajax({
+        type:'post',
+        url:'controller.php',
+        data: fromData,
+        success:function(result)
+        {
+            showresult(result);
+        }
+    });
+  }
+}, 2000));
