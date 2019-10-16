@@ -90,7 +90,19 @@ if(file_exists("config.php"))
               </div>
               <div class="row">
                 <div class="input-field col s12">
-                  <textarea id="ddl" type="url" class="materialize-textarea white-text" name="ddl"></textarea>
+                  <input id="google_public" type="text" class="materialize-textarea white-text" name="google_public">
+                  <label for="google_public">Google Captcha PUBLIC key</label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="input-field col s12">
+                  <input id="google_private" type="text" class="materialize-textarea white-text" name="google_private">
+                  <label for="google_private">Google Captcha !! PRIVATE !! key<</label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="input-field col s12">
+                  <textarea id="ddl" class="materialize-textarea white-text" name="ddl"></textarea>
                   <label for="ddl">Client Download Links (1 link per line)</label>
                 </div>
               </div>

@@ -49,9 +49,8 @@ switch($action) {
       echo $core->anwser("Username isn't valid, should be between 6 and 25, only alphanumeric (english).<br/>Please try again.","red darken-4 white-text center rounded");
   case "install":
     $install = new installer();
-    $inst = $install->handle((object)$_POST);
-    if($inst == true)
-      die("Insall success fully!");
+    if(!file_exists("config.php"))
+      die(($install->handle((object)$_POST) ? "Insall success fully!" : "Look like you already have config.php"));
     else
       die("Look like you already have config.php");
   break;

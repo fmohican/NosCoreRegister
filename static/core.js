@@ -58,4 +58,4 @@ $("#user_name").keyup(_.debounce(function (e) {
         }
     });
   }
-}, 2000));
+}, 1000));
