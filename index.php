@@ -12,19 +12,28 @@ include("function.php");
     <link type="text/css" rel="stylesheet" href="static/core.css"/>
   </head>
   <body class="grey darken-4 white-text">
+    <header>
+      <div class="loadingtop" id="loading">
+        <div class="progress">
+          <div class="indeterminate"></div>
+        </div>
+      </div>
+      <div class="container row">
+        <div class="col s12">
+          <h1 class="center"><?php echo $title;?></h1>
+        </div>
+      </div>
+    </header>
     <main>
       <div class="container">
         <div class="row">
-          <div class="col s12">
-            <h1 class="center"><?php echo $title;?></h1>
-          </div>
           <div class="col s12">
             <form class="col s12">
               <input type="hidden" name="action" value="user_new"/>
               <div class="row">
                 <div class="input-field col s12">
-                  <input id="sn" type="text" class="validate white-text" name="user_name" required>
-                  <label for="sn">Username</label>
+                  <input id="user_name" type="text" class="validate white-text" name="user_name" required>
+                  <label for="user_name">Username</label>
                   <span class="helper-text white-text text-darken-1" data-error="wrong" data-success="right">Username should be between 5 and 25 alphanumeric characters (latin only)</span>
                 </div>
               </div>
@@ -53,6 +62,15 @@ include("function.php");
           </div>
         </div>
     </main>
+    <footer>
+      <div class="container">
+        <div class="row">
+          <div class="col s12">
+            <p>This project its a forked by <?php echo $title;?> from <a href="https://github.com/fmohican/noscoreregister">Fmohican/NosCoreRegister</a> under WTFPL</p>
+          </div>
+        </div>
+      </div>
+    </footer>
     <!--JavaScript at end of body for optimized loading-->
     <script type="text/javascript" src="static/materialize.min.js"></script>
     <script type="text/javascript" src="static/jquery.min.js"></script>
