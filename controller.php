@@ -1,16 +1,24 @@
 <?php
 include("function.php");
-$action = $_REQUEST["action"];
+$action = htmlentities(strip_tags($_REQUEST["action"]), ENT_QUOTES);
 switch($action) {
+  case "user_check":
+    $post = (object) htmlentities(strip_tags($_POST), ENT_QUOTES);
+    if(true)
+      echo $core->anwser("Username ({$post->user_name}) is available!", "green darken-4 white-text rounded center");
+    else
+      echo $core->anwser("Username already exist in our system.<br/> Please enter other username", "red darken-4 rounded center white-text");
+    break;
   case "user_new":
-    use \Waavi\Sanitizer\Sanitizer;
     $filter = [
       "user_name" => "trim|escape|strip_tags",
       "user_password" => "trim|escape|strip_tags",
       "user_password_confirm" => "trim|escape|strip_tags",
       "user_email" => "trim|escape|lowercase"
     ];
-    $sani = (object) new Sanitizer($_POST, $filter);
+    $sani = (object) new \Waavi\Sanitizer\Sanitizer($_POST, $filter);
+    $sani = $sani->sanitize();
+    $sani = (object) $sani;
     if($core->check_username_len($sani->user_name)) {
       if(ctype_alnum($sani->user_name)) {
         if($core->check_password_len($sani->user_password)) {
@@ -18,27 +26,27 @@ switch($action) {
             if(filter_var($sani->user_email, FILTER_VALIDATE_EMAIL)) {
               if($core->check_username_exist($sani->user_name)) {
                 if($core->makeaccount($sani->user_name, $sani->user_password, $sani->user_password))
-                  echo $core->anwser("You'r account {$sani->user_name} was created! <br/> You can login now!", "green darken-4 white-text");
+                  echo $core->anwser("You'r account {$sani->user_name} was created! <br/> You can login now!", "green darken-4 white-text rounded");
                 else
-                  echo $core->anwser("Something wen't wrong, you'r account hasen't be created.<br>Please contact system operator.", "red darken-4 white-text center");
+                  echo $core->anwser("Something wen't wrong, you'r account hasen't be created.<br>Please contact system operator.", "red darken-4 white-text center rounded");
               }
               else
-                echo $core->anwser("Username already exist in our database!<br/>Please try again with differit username", "red darken-4 white-text center");
+                echo $core->anwser("Username already exist in our database!<br/>Please try again with differit username", "red darken-4 white-text center rounded");
             }
             else
-              echo $core->anwser("You'r email looks ugly!<br>Please use valid email", "red darken-4 white-text center");
+              echo $core->anwser("You'r email looks ugly!<br>Please use valid email", "red darken-4 white-text center rounded");
           }
           else
-            echo $core->anwser("Passwords do not match", "red darken-4 white-text center");
+            echo $core->anwser("Passwords do not match", "red darken-4 white-text center rounded");
         }
         else
-          echo $core->anwser("You'r password its too weak!</br> Password should be atleast 6 character longer", "red darken-4 white-text center");
+          echo $core->anwser("You'r password its too weak!</br> Password should be atleast 6 character longer", "red darken-4 white-text center rounded");
       }
       else
-        echo $core->anwser("Only alphanumeric characters (english) are allowed.<br/>Please try again.","red darken-4 white-text center");
+        echo $core->anwser("Only alphanumeric characters (english) are allowed.<br/>Please try again.","red darken-4 white-text center rounded");
     }
     else
-      echo $core->anwser("Username isn't valid, should be between 6 and 25, only alphanumeric (english).<br/>Please try again.","red darken-4 white-text center");
+      echo $core->anwser("Username isn't valid, should be between 6 and 25, only alphanumeric (english).<br/>Please try again.","red darken-4 white-text center rounded");
   case "install":
     $install = new installer();
     $inst = $install->handle((object)$_POST);
