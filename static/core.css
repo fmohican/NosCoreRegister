@@ -1,0 +1,4 @@
+body {
+  background: url(/static/bg.jpg) center center fixed;
+  background-size: cover;
+}

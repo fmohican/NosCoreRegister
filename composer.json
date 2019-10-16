@@ -1,6 +1,7 @@
 {
     "require": {
         "catfan/medoo": "^1.7",
-        "waavi/sanitizer": "~1.0"
+        "waavi/sanitizer": "~1.0",
+        "google/recaptcha": "1.2"
     }
 }

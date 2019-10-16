@@ -1,6 +1,6 @@
 <?php
 if(file_exists("config.php"))
-  die("Install is locked, please delete install.php for security reason. <br/> <strong>OR</strong> delete config.php for new install instance.");
+  die("<h1>Install is locked, please delete install.php for security reason. <br/> <strong>OR</strong> delete config.php for new install instance.</h1>");
 ?>
 <!DOCTYPE html>
 <html>

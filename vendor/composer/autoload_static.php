@@ -29,6 +29,10 @@ class ComposerStaticInit99fa41b69b13ef27cd4379ed4bdea2b1
             'Symfony\\Component\\HttpFoundation\\' => 33,
             'Symfony\\Component\\Finder\\' => 25,
         ),
+        'R' => 
+        array (
+            'ReCaptcha\\' => 10,
+        ),
         'P' => 
         array (
             'Psr\\SimpleCache\\' => 16,
@@ -98,6 +102,10 @@ class ComposerStaticInit99fa41b69b13ef27cd4379ed4bdea2b1
         'Symfony\\Component\\Finder\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/finder',
+        ),
+        'ReCaptcha\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/google/recaptcha/src/ReCaptcha',
         ),
         'Psr\\SimpleCache\\' => 
         array (
