@@ -1,5 +1,8 @@
 //AutoInitialization of MaterialiseJS
 M.AutoInit();
+$(document).ready(function(){
+  $('select').formSelect();
+});
 
 function showresult($message) {
     if(isJson($message)) {
@@ -59,3 +62,20 @@ $("#user_name").keyup(_.debounce(function (e) {
     });
   }
 }, 1000));
+
+//Lets calculate user password score
+$("#user_password").keyup(_.debounce(function (e) {
+  if($(this).val().length > 5) {
+    e.preventDefault();
+    var pwscore = new Score($(this).val());
+    pwscore = pwscore.calculateEntropyScore();
+    if(pwscore < 400)
+      showresult("You'r password isn't safe!<br/> Please consider use stronger password!");
+    else if(pwscore >= 500 && pwscore < 800)
+      showresult("You'r password it's fine.<br/> In a future please consider improve your password.");
+    else
+      showresult("You'r password it's strong!");
+  }
+  else
+    showresult("You'r password should be at last 6 characters longer");
+}, 700));

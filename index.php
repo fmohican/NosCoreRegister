@@ -26,7 +26,7 @@ include("function.php");
     </header>
     <main>
       <div class="container">
-        <div class="row">
+        <div class="row darkbg">
           <div class="col s12">
             <form class="col s12">
               <input type="hidden" name="action" value="user_new"/>
@@ -58,15 +58,24 @@ include("function.php");
                   <span class="helper-text white-text text-darken-1" data-error="wrong" data-success="right"></span>
                 </div>
               </div>
-            </div>
+              <div class="row">
+                <div class="col s6 center-align">
+                  <a class="btn btn-block red darken-4">Donwload Client</a>
+                </div>
+                <div class="col s6 center-align">
+                  <a class="btn btn-block">Register me</a>
+                </div>
+              </div>
+            </form>
           </div>
         </div>
+      </div>
     </main>
     <footer>
       <div class="container">
         <div class="row">
           <div class="col s12">
-            <p>This project its a forked by <?php echo $title;?> from <a href="https://github.com/fmohican/noscoreregister">Fmohican/NosCoreRegister</a> under WTFPL</p>
+            <p class="tooltipped center" data-position="top" data-tooltip="This page it's a fork of <a class='teal-text text-lighting-2' href='https://github.com/fmohican/noscoreregister'>github.com/Fmohican/NosCoreRegister</a>, licensed under WTFPL.">&copy; <?php echo $title;?> All Right Reserved.</p>
           </div>
         </div>
       </div>
@@ -75,6 +84,7 @@ include("function.php");
     <script type="text/javascript" src="static/materialize.min.js"></script>
     <script type="text/javascript" src="static/jquery.min.js"></script>
     <script type="text/javascript" src="static/underscore.min.js"></script>
+    <script type="text/javascript" src="static/password.score.min.js"></script>
     <script type="text/javascript" src="static/core.js"></script>
   </body>
 </html>

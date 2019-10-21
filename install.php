@@ -62,7 +62,7 @@ if(file_exists("config.php"))
                 </div>
               </div>
               <div class="row">
-                <h1 class="center">Server public infomration</h1>
+                <h1 class="center">Server Information</h1>
               </div>
               <div class="row">
                 <div class="input-field col s12">
@@ -104,6 +104,17 @@ if(file_exists("config.php"))
                 <div class="input-field col s12">
                   <textarea id="ddl" class="materialize-textarea white-text" name="ddl"></textarea>
                   <label for="ddl">Client Download Links (1 link per line)</label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="input-field col s12">
+                  <label>Materialize Select</label>
+                  <select>
+                    <option value="" disabled selected>Choose your option</option>
+                    <option value="1">Option 1</option>
+                    <option value="2">Option 2</option>
+                    <option value="3">Option 3</option>
+                  </select>
                 </div>
               </div>
               <div class="row">

@@ -9,3 +9,9 @@ body {
     z-index: 99999;
     top: -8px;
 }
+.tooltipped {
+  cursor: pointer;
+}
+.darkbg {
+  background: #212121e0;
+}

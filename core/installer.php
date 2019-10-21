@@ -12,6 +12,7 @@ $dbhost = "'.$data->db_host.'";
 $dbuser = "'.$data->db_user.'";
 $dbpass = "'.$data->db_pass.'";
 $dbname = "'.$data->db_name.'";
+$pwtype = "'.$data->pwconfig.'";
 $dbport = '.$data->db_port.';
 $discord = "'.$data->discord.'";
 $web = "'.$data->web.'";
