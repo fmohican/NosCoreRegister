@@ -70,12 +70,22 @@ $("#user_password").keyup(_.debounce(function (e) {
     var pwscore = new Score($(this).val());
     pwscore = pwscore.calculateEntropyScore();
     if(pwscore < 400)
-      showresult("You'r password isn't safe!<br/> Please consider use stronger password!");
+      showresult(JSON.stringify({message: "You'r password isn't safe!<br/> Please consider use stronger password!", classes: "rounded red darken-4"}));
     else if(pwscore >= 500 && pwscore < 800)
-      showresult("You'r password it's fine.<br/> In a future please consider improve your password.");
+      showresult(JSON.stringify({message: "You'r password it's fine.<br/> In a future please consider improve your password.", classes: "rounded yellow darken-4"}));
     else
-      showresult("You'r password it's strong!");
+      showresult(JSON.stringify({message: "You'r password it's strong!", classes: "rounded green darken-4"}));
   }
   else
     showresult("You'r password should be at last 6 characters longer");
 }, 700));
+
+$("#user_password_confirm").keyup(_.debounce(function (e) {
+  if($(this).val().length > 5) {
+    e.preventDefault();
+    if($("#user_password").val() === $(this).val())
+      showresult(JSON.stringify({message: "Password mached!", classes: "rounded green darken-4"}));
+    else
+      showresult(JSON.stringify({message: "We can't match your password</br>Be sure you confirm your password!", classes: "rounded red darken-4"}));
+    }
+  }, 1000));
