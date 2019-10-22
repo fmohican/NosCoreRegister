@@ -25,4 +25,38 @@ class core {
     $pwc = hash("sha1", $pwc);
     return ($pw == $pwc ? true : false);
   }
+
+  private function password_sha512($password) {
+    return hash("SHA512", $password);
+  }
+
+  private function passowrd_pbkdf2($password) {
+    return hash_pbkdf2("SHA512", $password, openssl_random_pseudo_bytes(24), 15000, 0);
+  }
+
+  private function password_both($password) {
+    return ["SHA512" => $this->password_sha512($password), "PBKDF2" => $this->passowrd_pbkdf2($password)];
+  }
+
+  private function password_crypt($password) {
+    global $pwtype;
+    try {
+      switch ($pwtype) {
+        case "SHA512":
+          return $this->password_sha512($password);
+          break;
+        case "PBKDF2":
+          return $this->passowrd_pbkdf2($password);
+          break;
+        case "Both":
+          return $this->password_both($password);
+          break;
+        default:
+        break;
+      }
+    } catch (Exception $e) {
+      die($e->getMessage());
+    }
+  }
+
 }

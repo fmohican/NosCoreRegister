@@ -19,7 +19,7 @@ if(file_exists("config.php"))
           <div class="col s12">
             <h1 class="center">Installer</h1>
           </div>
-          <div class="col s12">
+          <div class="col s12 darkbg rounded">
             <form class="col s12" method="post" action="controller.php">
               <input type="hidden" name="action" value="install"/>
               <div class="row">
@@ -97,7 +97,7 @@ if(file_exists("config.php"))
               <div class="row">
                 <div class="input-field col s12">
                   <input id="google_private" type="text" class="materialize-textarea white-text" name="google_private">
-                  <label for="google_private">Google Captcha !! PRIVATE !! key<</label>
+                  <label for="google_private">Google Captcha !! PRIVATE !! key</label>
                 </div>
               </div>
               <div class="row">
@@ -107,18 +107,30 @@ if(file_exists("config.php"))
                 </div>
               </div>
               <div class="row">
+                <p>Password encryption method</p>
                 <div class="input-field col s12">
-                  <label>Materialize Select</label>
-                  <select>
-                    <option value="" disabled selected>Choose your option</option>
-                    <option value="1">Option 1</option>
-                    <option value="2">Option 2</option>
-                    <option value="3">Option 3</option>
-                  </select>
+                  <p>
+                    <label>
+                      <input class="with-gap" name="pwconfig" type="radio" value="PBKDF2" disabled/>
+                      <span class="grey-text text-darken-1">PBKDF2 (New, Most secure)</span>
+                    </label>
+                  </p>
+                  <p>
+                    <label>
+                      <input class="with-gap" name="pwconfig" type="radio" value="SHA512" checked/>
+                      <span>SHA512 (Legacy, not secure)</span>
+                    </label>
+                  </p>
+                  <p>
+                    <label>
+                      <input class="with-gap" name="pwconfig" type="radio" value="Both"/>
+                      <span>Both (For debug propouse only)</span>
+                    </label>
+                  </p>
                 </div>
               </div>
-              <div class="row">
-                <button class="btn btn-large" type="submit">Make config files</button>
+              <div class="row center">
+                <button class="btn btn-large" type="submit">Make config file</button>
               </div>
             </form>
           </div>
