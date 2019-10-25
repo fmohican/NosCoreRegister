@@ -6,15 +6,24 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function showresult($message) {
-    if(isJson($message)) {
-        let obj = $.parseJSON($message);
-        if(obj.classes.length > 0)
-            M.toast({html: obj.message, classes: obj.classes, displayLength: 5500, outDuration: 700, inDuration: 550});
-        else
-            M.toast({html: obj.message, displayLength: 5500, outDuration: 700, inDuration: 550});
-    }
-    else {
-        M.toast({html: $message, displayLength: 5500, outDuration: 700, inDuration: 550});
+    try {
+        if (isJson($message)) {
+            let obj = $.parseJSON($message);
+            if (!obj.classes == "undefined" || obj.classes.length > 0)
+                M.toast({
+                    html: obj.message,
+                    classes: obj.classes,
+                    displayLength: 5500,
+                    outDuration: 700,
+                    inDuration: 550
+                });
+            else
+                M.toast({html: obj.message, displayLength: 5500, outDuration: 700, inDuration: 550});
+        } else {
+            M.toast({html: $message, displayLength: 5500, outDuration: 700, inDuration: 550});
+        }
+    } catch (e) {
+        M.toast({html: $.parseJSON($message).message, classes: "red darken-4 rounded", displayLength: 5500, outDuration: 700, inDuration: 550});
     }
 }
 
@@ -49,7 +58,29 @@ $("#user_name").keyup(_.debounce(function (e) {
     e.preventDefault();
     var fromData = {
       "action": "user_check",
+      "user_sign": $("input[name='user_sign']").val(),
       "user_name": $(this).val()
+    };
+    console.log(fromData);
+    $.ajax({
+        type:'post',
+        url:'controller.php',
+        data: fromData,
+        success:function(result)
+        {
+            showresult(result);
+        }
+    });
+  }
+}, 1000));
+
+$("#user_email").keyup(_.debounce(function (e) {
+  if($(this).val().length > 5) {
+    e.preventDefault();
+    var fromData = {
+      "action": "user_checkm",
+      "user_sign": $("input[name='user_sign']").val(),
+      "user_email": $(this).val()
     };
     console.log(fromData);
     $.ajax({
@@ -80,7 +111,6 @@ $("#user_password").keyup(_.debounce(function (e) {
   else
     showresult("You'r password should be at last 6 characters longer");
 }, 700));
-
 $("#user_password_confirm").keyup(_.debounce(function (e) {
   if($(this).val().length > 5) {
     e.preventDefault();

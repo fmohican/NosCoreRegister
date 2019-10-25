@@ -1,9 +1,27 @@
 <?php
 
+use Medoo\Medoo;
+
 class core {
 
-  public function __construct() {
+  protected $db;
 
+  protected $ip;
+
+  public function setup() {
+    $this->db_connect();
+    $ip = $this->self_ip();
+  }
+  private function db_connect() {
+    global $dbhost, $dbname, $dbpass, $dbport, $dbuser; #
+    $this->db = new Medoo([
+      'database_type' => 'pgsql',
+      'database_name' => $dbname,
+      'server' => $dbhost,
+      'port' => $dbport,
+      'username' => $dbuser,
+      'password' => $dbpass
+    ]);
   }
 
   public function check_username_len($data) {
@@ -66,23 +84,26 @@ class core {
 
   public function sign_check($sign) {
     $verifity = $this->sign_gen();
-    return (strcmp($sign, $verifity) ? true : false);
+    return ($verifity === $sign ? true : false);
   }
 
-  private function check_username_exist($username) {
-    global $dbhost, $dbname, $dbpass, $dbport, $dbuser; #
-    $db = new Medoo\Medoo([
-    'database_type' => 'pgsql',
-    'database_name' => $dbname,
-    'server' => $dbhost,
-    'port' => $dbport,
-    'username' => $dbuser,
-    'password' => $dbpass
-    ]);
-    return ($db->has("Accounts", ["name" => $username]) ? true : false);
+  public function check_username_exist($username) {
+    return (!$this->db->has("Account", ["Name" => $username]) ? true : false);
+  }
+
+  public function check_mail_exist($mail) {
+    return (!$this->db->has("Account", ["Email" => $mail]) ? true : false);
   }
   public function self_ip() {
+    //CF IPRanger, we need REAL IP not fake one.
     $cloudflareIPRanges = array(
+      '2400:cb00::/32',
+      '2606:4700::/32',
+      '2803:f800::/32',
+      '2405:b500::/32',
+      '2405:8100::/32',
+      '2a06:98c0::/29',
+      '2c0f:f248::/32',
       '204.93.240.0/24',
       '204.93.177.0/24',
       '199.27.128.0/21',
@@ -98,7 +119,8 @@ class core {
       '198.41.128.0/17',
       '162.158.0.0/15'
     );
-    if(isset($_SERVER["HTTP_CF_CONNECTING_IP"])) {
+    //Ensure we have a IP not an malicious content
+    if(isset($_SERVER["HTTP_CF_CONNECTING_IP"]) && filter_var($_SERVER["HTTP_CF_CONNECTING_IP"], FILTER_VALIDATE_IP)) {
       $validCFRequest = false;
       foreach($cloudflareIPRanges as $range){
         if($this->ip_in_range($_SERVER['REMOTE_ADDR'], $range)) {
@@ -114,6 +136,13 @@ class core {
     else
       return $_SERVER['REMOTE_ADDR'];
   }
+
+
+  /**
+   * @param $ip
+   * @param $range
+   * @return bool
+   */
   private function ip_in_range($ip, $range) {
     if ( strpos( $range, '/' ) == false ) {
       $range .= '/32';

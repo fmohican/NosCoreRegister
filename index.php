@@ -8,9 +8,7 @@ if(!file_exists("config.php"))
 <html>
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <!--Import Google Icon Font-->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <!--Import materialize.css-->
     <link type="text/css" rel="stylesheet" href="static/materialize.min.css"  media="screen,projection"/>
     <link type="text/css" rel="stylesheet" href="static/core.css"/>
   </head>
@@ -33,6 +31,7 @@ if(!file_exists("config.php"))
           <div class="col s12">
             <form class="col s12">
               <input type="hidden" name="action" value="user_new"/>
+              <input type="hidden" name="user_sign" value="<?php echo $core->sign_gen();?>"/>
               <div class="row">
                 <div class="input-field col s12">
                   <input id="user_name" type="text" class="validate white-text" name="user_name" required>
@@ -62,14 +61,14 @@ if(!file_exists("config.php"))
                 </div>
               </div>
               <div class="row">
-                <div class="gc"></div>
+                <div class="g-recaptcha center"></div>
               </div>
               <div class="row">
                 <div class="col s6 center-align">
                   <a class="btn waves-effect waves-light btn-large red darken-4 modal-trigger" href="#download"><i class="material-icons left">cloud_download</i> Donwload Client</a>
                 </div>
                 <div class="col s6 center-align">
-                  <a id="send" class="btn waves-effect waves-light btn-large green darken-4" disabled><i class="material-icons left">account_box</i> Register me</a>
+                  <button id="send" class="btn waves-effect waves-light btn-large green darken-4"><i class="material-icons left">account_box</i> Register me</button>
                 </div>
               </div>
             </form>
@@ -97,16 +96,16 @@ if(!file_exists("config.php"))
     <script type="text/javascript" src="static/jquery.min.js"></script>
     <script type="text/javascript" src="static/underscore.min.js"></script>
     <script type="text/javascript" src="static/password.score.min.js"></script>
-    <script type="text/javascript" src="https://www.google.com/recaptcha/api.js"></script>
+    <script type="text/javascript" src="https://www.google.com/recaptcha/api.js?hl=en&onload=onloadCallback&render=explicit"></script>
     <script type="text/javascript" src="static/core.js"></script>
     <script type="text/javascript" defer>
-var onloadCallback = function() {
-    var captchaContainer = document.querySelector('.gc');
-    grecaptcha.render(captchaContainer, {
-      'sitekey' : '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI'
-    });
-    $("#send").prop("disabled", false);
-};
+      var onloadCallback = function() {
+          var captchaContainer = document.querySelector('.g-recaptcha');
+          grecaptcha.render(captchaContainer, {
+              'sitekey' : '<?php echo $gpublic; ?>'
+          });
+          $("#send").prop("disabled", false);
+      };
 </script>
   </body>
 </html>
