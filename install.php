@@ -1,6 +1,6 @@
 <?php
-if(file_exists("config.php"))
-  die("<h1>Install is locked, please delete install.php for security reason. <br/> <strong>OR</strong> delete config.php for new install instance.</h1>");
+//if(file_exists("config.php"))
+//  die("<h1>Install is locked, please delete install.php for security reason. <br/> <strong>OR</strong> delete config.php for new install instance.</h1>");
 ?>
 <!DOCTYPE html>
 <html>
@@ -98,6 +98,12 @@ if(file_exists("config.php"))
                 <div class="input-field col s12">
                   <input id="google_private" type="text" class="materialize-textarea white-text" name="google_private">
                   <label for="google_private">Google Captcha !! PRIVATE !! key</label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="input-field col s12">
+                  <input id="signature_secret" type="text" class="materialize-textarea white-text" name="signature_secret" value="<?php echo bin2hex(openssl_random_pseudo_bytes(64));?>">
+                  <label for="signature_secret">Signature secret key (Leave as is, or use your own.)</label>
                 </div>
               </div>
               <div class="row">
