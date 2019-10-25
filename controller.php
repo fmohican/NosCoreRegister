@@ -3,11 +3,11 @@ include("function.php");
 $action = htmlentities(strip_tags($_REQUEST["action"]), ENT_QUOTES);
 switch($action) {
   case "user_check":
-    $post = (object) htmlentities(strip_tags($_POST), ENT_QUOTES);
-    if(true)
-      echo $core->anwser("Username ({$post->user_name}) is available!", "green darken-4 white-text rounded center");
+    $post = htmlentities(strip_tags($_POST["user_name"]), ENT_QUOTES);
+    if(false)
+      echo $core->anwser("Username (<strong>{$post}</strong>) is available!", "green darken-4 white-text rounded center");
     else
-      echo $core->anwser("Username already exist in our system.<br/> Please enter other username", "red darken-4 rounded center white-text");
+      echo $core->anwser("Username already exist in our system.<br/> Please try again!", "red darken-4 rounded center white-text");
     break;
   case "user_new":
     $filter = [
@@ -16,7 +16,7 @@ switch($action) {
       "user_password_confirm" => "trim|escape|strip_tags",
       "user_email" => "trim|escape|lowercase"
     ];
-    $sani = (object) new \Waavi\Sanitizer\Sanitizer($_POST, $filter);
+    $sani = new \Waavi\Sanitizer\Sanitizer($_POST, $filter);
     $sani = $sani->sanitize();
     $sani = (object) $sani;
     if($core->check_username_len($sani->user_name)) {
