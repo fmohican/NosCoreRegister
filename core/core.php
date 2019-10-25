@@ -6,12 +6,17 @@ class core {
 
   protected $db;
 
-  protected $ip;
+  public $ip;
+
+  protected $pwtype;
 
   public function setup() {
+    global $pwtype;
     $this->db_connect();
-    $ip = $this->self_ip();
+    $this->ip = $this->self_ip();
+    $this->pwtype = $pwtype;
   }
+
   private function db_connect() {
     global $dbhost, $dbname, $dbpass, $dbport, $dbuser; #
     $this->db = new Medoo([
@@ -49,32 +54,8 @@ class core {
   }
 
   private function passowrd_pbkdf2($password) {
-    return hash_pbkdf2("SHA512", $password, openssl_random_pseudo_bytes(24), 15000, 0);
-  }
-
-  private function password_both($password) {
-    return ["SHA512" => $this->password_sha512($password), "PBKDF2" => $this->passowrd_pbkdf2($password)];
-  }
-
-  private function password_crypt($password) {
-    global $pwtype;
-    try {
-      switch ($pwtype) {
-        case "SHA512":
-          return $this->password_sha512($password);
-          break;
-        case "PBKDF2":
-          return $this->passowrd_pbkdf2($password);
-          break;
-        case "Both":
-          return $this->password_both($password);
-          break;
-        default:
-        break;
-      }
-    } catch (Exception $e) {
-      die($e->getMessage());
-    }
+    $salt = bin2hex(openssl_random_pseudo_bytes(24));
+    return (object)[ "hash"=>hash_pbkdf2("SHA512", $password, $salt, 15000, 0), "salt"=>$salt];
   }
 
   public function sign_gen() {
@@ -94,6 +75,7 @@ class core {
   public function check_mail_exist($mail) {
     return (!$this->db->has("Account", ["Email" => $mail]) ? true : false);
   }
+
   public function self_ip() {
     //CF IPRanger, we need REAL IP not fake one.
     $cloudflareIPRanges = array(
@@ -137,7 +119,6 @@ class core {
       return $_SERVER['REMOTE_ADDR'];
   }
 
-
   /**
    * @param $ip
    * @param $range
@@ -153,5 +134,49 @@ class core {
     $wildcard_decimal = pow( 2, ( 32 - $netmask ) ) - 1;
     $netmask_decimal = ~ $wildcard_decimal;
     return ( ( $ip_decimal & $netmask_decimal ) == ( $range_decimal & $netmask_decimal ) );
+  }
+
+  public function makeaccount($user_name, $user_password, $user_email) {
+    switch ($this->pwtype) {
+      case "SHA512":
+        $prepare = [
+          "Authority" => 0,
+          "Language" => 0,
+          "Name" => $user_name,
+          "Password" => $this->password_sha512($user_password),
+          "Email" => $user_email,
+          "RegistrationIp" => $this->ip
+        ];
+        break;
+      case "PBKDF2":
+        $password = $this->passowrd_pbkdf2($user_password);
+        $prepare = [
+          "Authority" => 0,
+          "Language" => 0,
+          "Name" => $user_name,
+          "NewAuthPassword" => $password->hash,
+          "NewAuthSalt" => $password->salt,
+          "Email" => $user_email,
+          "RegistrationIp" => $this->ip
+        ];
+        break;
+      case "Both":
+        $password = $this->passowrd_pbkdf2($user_password);
+        $prepare = [
+          "Authority" => 0,
+          "Language" => 0,
+          "Name" => $user_name,
+          "NewAuthPassword" => $password->hash,
+          "Password" => $this->password_sha512($user_password),
+          "NewAuthSalt" => $password->salt,
+          "Email" => $user_email,
+          "RegistrationIp" => $this->ip
+        ];
+        break;
+      default:
+        return false;
+        break;
+    }
+    return ($this->db->insert("Account", $prepare)? true : false);
   }
 }

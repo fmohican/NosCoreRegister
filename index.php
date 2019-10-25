@@ -29,7 +29,7 @@ if(!file_exists("config.php"))
       <div class="container">
         <div class="row darkbg">
           <div class="col s12">
-            <form class="col s12">
+            <form class="col s12" id="register">
               <input type="hidden" name="action" value="user_new"/>
               <input type="hidden" name="user_sign" value="<?php echo $core->sign_gen();?>"/>
               <div class="row">
@@ -68,7 +68,7 @@ if(!file_exists("config.php"))
                   <a class="btn waves-effect waves-light btn-large red darken-4 modal-trigger" href="#download"><i class="material-icons left">cloud_download</i> Donwload Client</a>
                 </div>
                 <div class="col s6 center-align">
-                  <button id="send" class="btn waves-effect waves-light btn-large green darken-4"><i class="material-icons left">account_box</i> Register me</button>
+                  <button id="send" type="submit" class="btn waves-effect waves-light btn-large green darken-4"><i class="material-icons left">account_box</i> Register me</button>
                 </div>
               </div>
             </form>

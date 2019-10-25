@@ -53,6 +53,7 @@ function isJson(item) {
 }
 
 //ajax
+//Check username
 $("#user_name").keyup(_.debounce(function (e) {
   if($(this).val().length > 5) {
     e.preventDefault();
@@ -73,7 +74,7 @@ $("#user_name").keyup(_.debounce(function (e) {
     });
   }
 }, 1000));
-
+//Check Email
 $("#user_email").keyup(_.debounce(function (e) {
   if($(this).val().length > 5) {
     e.preventDefault();
@@ -94,7 +95,19 @@ $("#user_email").keyup(_.debounce(function (e) {
     });
   }
 }, 1000));
-
+//Send Form
+$("#register").on("submit",function (e) {
+    e.preventDefault();
+    var formData = $(this).serialize();
+    $.ajax({
+        type: 'post',
+        url: 'controller.php',
+        data: formData,
+        success: function (result) {
+            showresult(result);
+        }
+    });
+});
 //Lets calculate user password score
 $("#user_password").keyup(_.debounce(function (e) {
   if($(this).val().length > 5) {
