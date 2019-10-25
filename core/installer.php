@@ -14,6 +14,7 @@ $dbpass = "'.$data->db_pass.'";
 $dbname = "'.$data->db_name.'";
 $pwtype = "'.$data->pwconfig.'";
 $dbport = '.$data->db_port.';
+$signature_secret = '.$data->signature_secret.';
 $discord = "'.$data->discord.'";
 $web = "'.$data->web.'";
 $fb = "'.$data->fb.'";
