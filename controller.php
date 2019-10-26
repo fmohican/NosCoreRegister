@@ -65,7 +65,7 @@ switch($action) {
   case "user_new":
     $recaptcha = new ReCaptcha($gprivate);
     $resp = $recaptcha->setExpectedHostname($_SERVER['SERVER_NAME'])->verify($_POST['g-recaptcha-response'], $core->ip);
-    if ($resp->isSuccess() or 1 == 1) {
+    if ($resp->isSuccess()) {
       $filter = [
         "user_name" => "trim|escape|strip_tags",
         "user_password" => "trim|escape|strip_tags",
