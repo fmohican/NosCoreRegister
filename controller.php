@@ -7,22 +7,56 @@ switch($action) {
   case "API":
     $type = htmlentities(strip_tags($_REQUEST["type"]), ENT_QUOTES);
     if($API == true) {
-      switch ($type) {
-        case "register":
-          //todo
-          break;
-        case "login":
-          //todo
-          break;
-        case "check_username":
-          //todo
-          break;
-        case "check_email":
-          break;
-        default:
-          echo json_encode("No types found. :(");
-          break;
-      }
+      if (strlen($API_secret) > 24) {
+        switch ($type) {
+          case "register":
+            //todo
+            break;
+          case "login":
+            //todo
+            break;
+          case "check_username":
+            $filter = [
+              "user_name" => "trim|escape|strip_tags",
+              "user_sign" => "trim|escape|strip_tags"
+            ];
+            $sani = new Sanitizer($_REQUEST, $filter);
+            $sani = (object) $sani->sanitize();
+            try {
+              if($core->sign_check($sani->user_sign)) {
+                if($core->check_username_exist($sani->user_name))
+                  echo json_encode(["username"=>$sani->user_name, "available"=>True]);
+                else
+                  echo json_encode(["username"=>$sani->user_name, "available"=>False]);
+              }
+            } catch (Exception $e) {
+              echo json_encode($e->getMessage());
+            }
+            break;
+          case "check_email":
+            $filter = [
+              "user_email" => "trim|escape|strip_tags",
+              "user_sign" => "trim|escape|strip_tags"
+            ];
+            $sani = new Sanitizer($_REQUEST, $filter);
+            $sani = (object) $sani->sanitize();
+            try {
+              if($core->sign_check($sani->user_sign)) {
+                if($core->check_mail_exist($sani->user_email))
+                  echo json_encode(["username"=>$sani->user_email, "available"=>True]);
+                else
+                  echo json_encode(["username"=>$sani->user_email, "available"=>False]);
+              }
+            } catch (Exception $e) {
+              echo json_encode($e->getMessage());
+            }
+            break;
+          default:
+            echo json_encode("No types found. :(");
+            break;
+        }
+      } else
+        echo json_encode("API Key isn't secure, please use at last 25 characters!");
     } else
       echo json_encode("API are disabled for this server. If you are system operator please enablie it in config");
     break;
